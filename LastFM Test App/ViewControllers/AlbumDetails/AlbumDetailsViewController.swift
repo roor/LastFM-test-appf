@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  AlbumDetailsViewController.swift
 //  LastFM Test App
 //
 //  Created by Artem Podustov on 6/22/19.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class AlbumDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
     }
 
 
 }
-
