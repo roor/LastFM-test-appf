@@ -18,14 +18,30 @@ final class NetworkManager {
         case albumGetInfo = "album.getInfo"
     }
 
+    static func albumInfo(with album: Album, callback: @escaping ([Track]?) -> ()) {
+        if let url = prepareURL(for: .albumGetInfo, extraQueryItems: [URLQueryItem(name: "mbid", value: album.mbid)]) {
+            Alamofire.request(url).responseArray(keyPath: "album.tracks.track") { (response: DataResponse<[Track]>) in
+                response.result.ifSuccess {
+                    if let tracks = response.result.value {
+                        tracks.forEach({ (track) in
+                            album.tracks.append(track)
+                        })
+                        callback(tracks)
+                    } else {
+                        callback(nil)
+                    }
+                }
+            }
+        }
+    }
+
     static func topAlbums(with artist: Artist, callback: @escaping ([Album]) -> ()) {
         if let url = prepareURL(for: .artistGetTopAlbums, extraQueryItems: [URLQueryItem(name: "mbid", value: artist.mbid)]) {
             Alamofire.request(url).responseArray(keyPath: "topalbums.album") { (response: DataResponse<[Album]>) in
                 response.result.ifSuccess {
                     if let list = response.result.value {
-                        artist.albums = list
-
                         list.forEach({ (album) in
+                            artist.albums.append(album)
                             album.artist = artist
                         })
                         callback(list)
@@ -39,9 +55,9 @@ final class NetworkManager {
 
     static func search(for artistName: String, callback: @escaping ([Artist]) -> ()) {
         if let url = prepareURL(for: .artistSearch, extraQueryItems: [URLQueryItem(name: "artist", value: artistName)]) {
-            Alamofire.request(url).responseObject(keyPath: "results") { (response: DataResponse<ArtistsList>) in
+            Alamofire.request(url).responseArray(keyPath: "results.artistmatches.artist") { (response: DataResponse<[Artist]>) in
                 response.result.ifSuccess {
-                    if let list = response.result.value?.artists {
+                    if let list = response.result.value {
                         callback(list)
                     } else {
                         callback([Artist]())

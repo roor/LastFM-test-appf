@@ -7,22 +7,32 @@
 //
 
 import ObjectMapper
+import Realm
+import RealmSwift
 
-final class Album: Mappable {
-    var mbid: String!
-    var name: String!
-    var coverImages: [CoverImage]?
+final class Album: Object, Mappable {
+    dynamic var mbid: String!
+    dynamic var name: String!
+    dynamic var coverImages: [CoverImage]?
+    let tracks = List<Track>()
 
-    var isSelected: Bool = false
-
-    unowned var artist: Artist!
-    var albumDetail: AlbumDetail?
+    /**
+     Used in cell pre selection for downloads.
+     */
+    dynamic var isSelected: Bool = false
+    dynamic var isDownloaded: Bool = false
+    dynamic unowned var artist: Artist!
     
-    init?(map: Map) {
+    required convenience init?(map: Map) {
+        self.init()
         guard let _: String = map["name"].value(),
             let mbid: String = map["mbid"].value(), !mbid.isEmpty else {
                 return nil
         }
+    }
+
+    override class func primaryKey() -> String {
+        return "mbid"
     }
 
     func mapping(map: Map) {
@@ -51,20 +61,27 @@ enum ImageSize: String {
     case extraLarge = "extralarge"
 }
 
-final class CoverImage: Mappable {
-    var url: URL!
-    var imageSize: ImageSize!
+final class CoverImage: Object, Mappable {
+    dynamic var urlString: String!
+    dynamic var imageSize: ImageSize!
 
-    init?(map: Map) {
+    override class func primaryKey() -> String {
+        return "urlString"
+    }
+
+    var url: URL? {
+        return URL(string: urlString)
+    }
+
+    required convenience init?(map: Map) {
+        self.init()
         guard let urlString: String = map["#text"].value(), let _ = URL(string: urlString) else {
             return nil
         }
     }
 
     func mapping(map: Map) {
-        var urlString: String!
         urlString <- map["#text"]
-        url = URL(string: urlString)
 
         var imageSizeString: String!
         imageSizeString <- map["size"]

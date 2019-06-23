@@ -40,8 +40,24 @@ final class AlbumsViewController: UIViewController {
         }
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? AlbumDetailsViewController, let item = sender as? Album {
+            destination.album = item
+        }
+    }
+
     @IBAction func editAction(_ sender: Any) {
         setEditing(!isEditing, animated: true)
+        if !isEditing {
+            editButton.style = .plain
+            editButton.title = NSLocalizedString("Edit", comment: "Edit button")
+            albums.forEach { (album) in
+                album.isSelected = false
+            }
+        } else {
+            editButton.style = .done
+            editButton.title = NSLocalizedString("Done", comment: "Done button")
+        }
         let visibleItems = collectionView.indexPathsForVisibleItems
         collectionView.reloadItems(at: visibleItems)
     }
@@ -54,10 +70,11 @@ extension AlbumsViewController: UICollectionViewDelegate {
         if isEditing {
             if let cell = collectionView.cellForItem(at: indexPath) {
                 item.isSelected = !item.isSelected
-                cell.isSelected = !cell.isSelected
+                cell.isSelected = item.isSelected
             }
         } else {
             performSegue(withIdentifier: Segue.DetailSegue, sender: item)
+            collectionView.deselectItem(at: indexPath, animated: false)
         }
     }
 }

@@ -7,21 +7,28 @@
 //
 
 import ObjectMapper
+import Realm
+import RealmSwift
 
-final class Artist: Mappable {
+final class Artist: Object, Mappable {
 
-    var name: String!
-    var mbid: String!
-    var listeners: Int?
-    var albums: [Album]?
+    dynamic var name: String!
+    dynamic var mbid: String!
+    dynamic var listeners: Int?
+    let albums = List<Album>()
 
-    init?(map: Map) {
+    required convenience init?(map: Map) {
+        self.init()
         guard let _: String = map["name"].value(),
             let mbid: String = map["mbid"].value(), !mbid.isEmpty else {
             return nil
         }
     }
-    
+
+    override class func primaryKey() -> String {
+        return "mbid"
+    }
+
     func mapping(map: Map) {
         name <- map["name"]
         mbid <- map["mbid"]
