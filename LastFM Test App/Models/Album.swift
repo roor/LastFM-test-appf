@@ -11,17 +11,13 @@ import Realm
 import RealmSwift
 
 final class Album: Object, Mappable {
-    dynamic var mbid: String!
-    dynamic var name: String!
-    dynamic var coverImages: [CoverImage]?
+    @objc dynamic var mbid: String!
+    @objc dynamic var name: String!
+    let coverImages = List<CoverImage>()
     let tracks = List<Track>()
 
-    /**
-     Used in cell pre selection for downloads.
-     */
-    dynamic var isSelected: Bool = false
-    dynamic var isDownloaded: Bool = false
-    dynamic unowned var artist: Artist!
+    @objc dynamic var isDownloaded: Bool = false 
+    @objc dynamic unowned var artist: Artist!
     
     required convenience init?(map: Map) {
         self.init()
@@ -42,10 +38,8 @@ final class Album: Object, Mappable {
     }
 
     func coverImageURL(with size: ImageSize) -> URL? {
-        if let images = coverImages {
-            if let index = images.firstIndex(where: { $0.imageSize == size }) {
-                return images[index].url
-            }
+        if let index = coverImages.firstIndex(where: { $0.imageSize == size }) {
+            return coverImages[index].url
         }
 
         return nil
@@ -62,12 +56,18 @@ enum ImageSize: String {
 }
 
 final class CoverImage: Object, Mappable {
-    dynamic var urlString: String!
-    dynamic var imageSize: ImageSize!
+    @objc dynamic var urlString: String!
+    @objc dynamic var imageSizeString: String!
+    
+    var imageSize: ImageSize {
+        return ImageSize(rawValue: imageSizeString) ?? .undefined
+    }
 
     override class func primaryKey() -> String {
         return "urlString"
     }
+
+    override class func ignoredProperties() -> [String] { return ["imageSize"] }
 
     var url: URL? {
         return URL(string: urlString)
@@ -82,11 +82,7 @@ final class CoverImage: Object, Mappable {
 
     func mapping(map: Map) {
         urlString <- map["#text"]
-
-        var imageSizeString: String!
         imageSizeString <- map["size"]
-
-        imageSize = ImageSize(rawValue: imageSizeString) ?? .undefined
     }
 
 }

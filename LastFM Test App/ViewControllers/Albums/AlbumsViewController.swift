@@ -8,11 +8,14 @@
 
 import UIKit
 import AlamofireImage
+import RealmSwift
 
 final class AlbumsViewController: UIViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var searchButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
+
+    let realm = try! Realm()
 
     var artist: Artist? {
         didSet {
@@ -27,15 +30,34 @@ final class AlbumsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         collectionView.allowsMultipleSelection = true
         if let artist = artist {
             loadServerData(for: artist)
         }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if artist == nil {
+            let realm = try! Realm()
+            let realmAlbums = realm.objects(Album.self).filter("isDownloaded = 1")
+            albums = Array(realmAlbums)
+            collectionView.reloadData()
+        }
+    }
+
     private func loadServerData(for artist: Artist) {
+        let realmAlbums = realm.objects(Album.self).filter("artist.mbid = %@", artist.mbid as Any)
+
         NetworkManager.topAlbums(with: artist) { (list) in
             self.albums = list
+            realmAlbums.forEach({ (album) in
+                if let index = self.albums.firstIndex(where: { $0.mbid == album.mbid }) {
+                    self.albums[index] = album
+                }
+            })
+
             self.collectionView.reloadData()
         }
     }
@@ -51,9 +73,7 @@ final class AlbumsViewController: UIViewController {
         if !isEditing {
             editButton.style = .plain
             editButton.title = NSLocalizedString("Edit", comment: "Edit button")
-            albums.forEach { (album) in
-                album.isSelected = false
-            }
+            save()
         } else {
             editButton.style = .done
             editButton.title = NSLocalizedString("Done", comment: "Done button")
@@ -62,19 +82,43 @@ final class AlbumsViewController: UIViewController {
         collectionView.reloadItems(at: visibleItems)
     }
 
+    private func save() {
+        try! realm.write {
+            albums.forEach { (album) in
+                if album.isDownloaded {
+                    realm.add(album, update: .modified)
+                }
+            }
+        }
+    }
 }
 
 extension AlbumsViewController: UICollectionViewDelegate {
+
+    func toggleSelection(at indexPath: IndexPath) {
+        let item = albums[indexPath.item]
+
+        if let cell = collectionView.cellForItem(at: indexPath) {
+            try! realm.write {
+                item.isDownloaded = !item.isDownloaded
+            }
+            cell.isSelected = item.isDownloaded
+        }
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = albums[indexPath.item]
         if isEditing {
-            if let cell = collectionView.cellForItem(at: indexPath) {
-                item.isSelected = !item.isSelected
-                cell.isSelected = item.isSelected
-            }
+            toggleSelection(at: indexPath)
         } else {
             performSegue(withIdentifier: Segue.DetailSegue, sender: item)
             collectionView.deselectItem(at: indexPath, animated: false)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if isEditing {
+            toggleSelection(at: indexPath)
         }
     }
 }
@@ -88,7 +132,11 @@ extension AlbumsViewController: UICollectionViewDataSource {
         cell.titleLabel.text = item.name
         cell.artistLabel.text = item.artist.name
         cell.setEditing(editing: isEditing)
-        cell.isSelected = item.isSelected
+        if isEditing {
+            cell.isSelected = item.isDownloaded
+        } else {
+            cell.isSelected = false
+        }
         if let url = item.coverImageURL(with: .large) {
             cell.coverLoadingIndicatorView.startAnimating()
             cell.coverImageView.af_setImage(withURL: url) { [weak cell] _ in

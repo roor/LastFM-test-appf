@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 final class AlbumDetailsViewController: UIViewController {
     @IBOutlet weak var coverImageView: UIImageView!
@@ -27,15 +28,21 @@ final class AlbumDetailsViewController: UIViewController {
         title = album.name
         navigationItem.prompt = album.artist.name
 
+        downloadSwitch.isOn = album.isDownloaded
+
         activityIndicatorView.startAnimating()
         if let url = album.coverImageURL(with: .extraLarge) {
             coverImageView.af_setImage(withURL: url) { [weak self] _ in
                 self?.activityIndicatorView.stopAnimating()
             }
-
         }
 
-        loadAlbumInfo()
+        if !album.tracks.isEmpty {
+            tracks = Array(album.tracks)
+            tableView.reloadData()
+        } else {
+            loadAlbumInfo()
+        }
     }
 
     fileprivate func loadAlbumInfo() {
@@ -47,8 +54,11 @@ final class AlbumDetailsViewController: UIViewController {
         }
     }
 
-    @IBAction func downloadAction(_ sender: Any) {
-
+    @IBAction func downloadAction(_ sender: UISwitch) {
+        let realm = try! Realm()
+        try! realm.write {
+            album.isDownloaded = sender.isOn
+        }
     }
 
 }

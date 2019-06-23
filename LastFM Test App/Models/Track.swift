@@ -12,13 +12,13 @@ import RealmSwift
 
 final class Track: Object, Mappable {
 
-    dynamic var name: String!
-    dynamic var url: String!
+    @objc dynamic var name: String!
+    @objc dynamic var url: String!
 
     /**
      Track duration in seconds.
      */
-    dynamic var duration: TimeInterval = 0
+    @objc dynamic var duration: TimeInterval = 0
 
     required convenience init?(map: Map) {
         self.init()

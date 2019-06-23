@@ -27,7 +27,7 @@ final class SearchTableViewController: UITableViewController {
 
         let item = artists[indexPath.row]
         cell.textLabel?.text = item.name
-        cell.detailTextLabel?.text = String(item.listeners ?? 0)
+        cell.detailTextLabel?.text = item.listeners
 
         return cell
     }

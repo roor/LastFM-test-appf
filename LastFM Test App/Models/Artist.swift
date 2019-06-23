@@ -12,9 +12,9 @@ import RealmSwift
 
 final class Artist: Object, Mappable {
 
-    dynamic var name: String!
-    dynamic var mbid: String!
-    dynamic var listeners: Int?
+    @objc dynamic var name: String!
+    @objc dynamic var mbid: String!
+    @objc dynamic var listeners: String?
     let albums = List<Album>()
 
     required convenience init?(map: Map) {
@@ -32,14 +32,7 @@ final class Artist: Object, Mappable {
     func mapping(map: Map) {
         name <- map["name"]
         mbid <- map["mbid"]
-
-        var listenersString : String?
-        listenersString <- map["listeners"]
-
-        if let listenersString = listenersString, let listeners = Int(listenersString) {
-            self.listeners = listeners
-        }
+        listeners <- map["listeners"]
     }
-    
 
 }

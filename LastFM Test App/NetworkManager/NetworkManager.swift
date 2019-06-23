@@ -8,10 +8,12 @@
 
 import Alamofire
 import AlamofireObjectMapper
+import RealmSwift
 
 final class NetworkManager {
     static let APIKey = "a401ff83d9458c57fb1aa742ef41435a"
 
+    static let realm = try! Realm()
     enum Method: String {
         case artistSearch = "artist.search"
         case artistGetTopAlbums = "artist.getTopAlbums"
@@ -23,9 +25,12 @@ final class NetworkManager {
             Alamofire.request(url).responseArray(keyPath: "album.tracks.track") { (response: DataResponse<[Track]>) in
                 response.result.ifSuccess {
                     if let tracks = response.result.value {
-                        tracks.forEach({ (track) in
-                            album.tracks.append(track)
-                        })
+
+                        try! realm.write {
+                            tracks.forEach({ (track) in
+                                album.tracks.append(track)
+                            })
+                        }
                         callback(tracks)
                     } else {
                         callback(nil)
@@ -40,10 +45,13 @@ final class NetworkManager {
             Alamofire.request(url).responseArray(keyPath: "topalbums.album") { (response: DataResponse<[Album]>) in
                 response.result.ifSuccess {
                     if let list = response.result.value {
-                        list.forEach({ (album) in
-                            artist.albums.append(album)
-                            album.artist = artist
-                        })
+
+                        try! realm.write {
+                            list.forEach({ (album) in
+                                artist.albums.append(album)
+                                album.artist = artist
+                            })
+                        }
                         callback(list)
                     } else {
                         callback([Album]())
