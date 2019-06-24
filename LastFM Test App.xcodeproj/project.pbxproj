@@ -27,6 +27,7 @@
 		9C6D184B22BE210800F73DDC /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6D184A22BE210800F73DDC /* Track.swift */; };
 		9C6D184D22BE799C00F73DDC /* ConstantsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6D184C22BE799C00F73DDC /* ConstantsHelper.swift */; };
 		9C6D185122BE7CD000F73DDC /* AlbumDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6D185022BE7CD000F73DDC /* AlbumDetailsViewController.swift */; };
+		9CFFF47522C0ACBB00A2A09B /* TrackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFF47422C0ACBB00A2A09B /* TrackTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		9C6D184A22BE210800F73DDC /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		9C6D184C22BE799C00F73DDC /* ConstantsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsHelper.swift; sourceTree = "<group>"; };
 		9C6D185022BE7CD000F73DDC /* AlbumDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailsViewController.swift; sourceTree = "<group>"; };
+		9CFFF47422C0ACBB00A2A09B /* TrackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTests.swift; sourceTree = "<group>"; };
 		ADE8B7A18D284D218E64BC89 /* Pods_LastFM_Test_AppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LastFM_Test_AppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE7F9119A106007A498D7F0E /* Pods_LastFM_Test_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LastFM_Test_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCFD745061DAD7ED1EB405AA /* Pods-LastFM Test App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LastFM Test App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LastFM Test App/Pods-LastFM Test App.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				9C6D181F22BDF49600F73DDC /* LastFM_Test_AppTests.swift */,
+				9CFFF47422C0ACBB00A2A09B /* TrackTests.swift */,
 				9C6D182122BDF49600F73DDC /* Info.plist */,
 			);
 			path = "LastFM Test AppTests";
@@ -485,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C6D182022BDF49600F73DDC /* LastFM_Test_AppTests.swift in Sources */,
+				9CFFF47522C0ACBB00A2A09B /* TrackTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,7 +586,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -637,7 +641,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -692,6 +696,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EAZ3268MWZ;
 				INFOPLIST_FILE = "LastFM Test AppTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -713,6 +718,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EAZ3268MWZ;
 				INFOPLIST_FILE = "LastFM Test AppTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -733,6 +739,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EAZ3268MWZ;
 				INFOPLIST_FILE = "LastFM Test AppUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -753,6 +760,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EAZ3268MWZ;
 				INFOPLIST_FILE = "LastFM Test AppUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

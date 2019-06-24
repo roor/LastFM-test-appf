@@ -31,4 +31,16 @@ class LastFM_Test_AppTests: XCTestCase {
         XCTAssertEqual(time, "0:30")
     }
 
+    func testAlbumDetailSegue() {
+        XCTAssertEqual(Segue.DetailSegue, "detailSegue")
+    }
+
+    func testAlbumsSegue() {
+        XCTAssertEqual(Segue.AlbumsSegue, "albumsSegue")
+    }
+
+    func testSearchSegue() {
+        XCTAssertEqual(Segue.SearchSegue, "searchSegue")
+    }
+    
 }

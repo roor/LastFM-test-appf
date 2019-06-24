@@ -11,15 +11,28 @@ import AlamofireObjectMapper
 import RealmSwift
 
 final class NetworkManager {
+    /**
+     Last FM API key.
+     */
     static let APIKey = "a401ff83d9458c57fb1aa742ef41435a"
 
     static let realm = try! Realm()
+
+    /**
+     All supported for app requests to LastFM API
+     */
     enum Method: String {
         case artistSearch = "artist.search"
         case artistGetTopAlbums = "artist.getTopAlbums"
         case albumGetInfo = "album.getInfo"
     }
 
+    /**
+     Get all album info with tracks.
+
+     - parameter album: Album that you willing get more info about.
+     - parameter callback: Callback with tracks for this album.
+     */
     static func albumInfo(with album: Album, callback: @escaping ([Track]?) -> ()) {
         if let url = prepareURL(for: .albumGetInfo, extraQueryItems: [URLQueryItem(name: "mbid", value: album.mbid)]) {
             Alamofire.request(url).responseArray(keyPath: "album.tracks.track") { (response: DataResponse<[Track]>) in
@@ -40,6 +53,12 @@ final class NetworkManager {
         }
     }
 
+    /**
+     Get top albums for given Artist.
+
+     - parameter artist: Artist that you willing get top albums for.
+     - parameter callback: Callback with top albums.
+     */
     static func topAlbums(with artist: Artist, callback: @escaping ([Album]) -> ()) {
         if let url = prepareURL(for: .artistGetTopAlbums, extraQueryItems: [URLQueryItem(name: "mbid", value: artist.mbid)]) {
             Alamofire.request(url).responseArray(keyPath: "topalbums.album") { (response: DataResponse<[Album]>) in
@@ -61,6 +80,12 @@ final class NetworkManager {
         }
     }
 
+    /**
+     Search for artist name.
+
+     - parameter artistName: Artist name.
+     - parameter callback: Callback with artists.
+     */
     static func search(for artistName: String, callback: @escaping ([Artist]) -> ()) {
         if let url = prepareURL(for: .artistSearch, extraQueryItems: [URLQueryItem(name: "artist", value: artistName)]) {
             Alamofire.request(url).responseArray(keyPath: "results.artistmatches.artist") { (response: DataResponse<[Artist]>) in
@@ -85,8 +110,7 @@ final class NetworkManager {
         if let extraQueryItems = extraQueryItems {
             queryItems.append(contentsOf: extraQueryItems)
         }
-        queryItems.append(contentsOf: [URLQueryItem(name: "api_key", value: APIKey),
-                          URLQueryItem(name: "format", value: "json")])
+        queryItems.append(contentsOf: [URLQueryItem(name: "api_key", value: APIKey), URLQueryItem(name: "format", value: "json")])
 
         components.queryItems = queryItems
 

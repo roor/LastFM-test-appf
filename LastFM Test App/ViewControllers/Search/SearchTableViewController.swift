@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ Search for artists.
+ */
 final class SearchTableViewController: UITableViewController {
 
     fileprivate var artists = [Artist]()

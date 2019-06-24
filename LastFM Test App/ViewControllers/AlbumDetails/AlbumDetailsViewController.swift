@@ -9,6 +9,9 @@
 import UIKit
 import RealmSwift
 
+/**
+ Detail view controller of selected album.
+ */
 final class AlbumDetailsViewController: UIViewController {
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
@@ -58,6 +61,7 @@ final class AlbumDetailsViewController: UIViewController {
         let realm = try! Realm()
         try! realm.write {
             album.isDownloaded = sender.isOn
+            realm.add(album, update: .modified)
         }
     }
 

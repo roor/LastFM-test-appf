@@ -10,6 +10,9 @@ import UIKit
 import AlamofireImage
 import RealmSwift
 
+/**
+ Showing stored albums, also used for showing albums after search.
+ */
 final class AlbumsViewController: UIViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var searchButton: UIBarButtonItem!
@@ -39,12 +42,16 @@ final class AlbumsViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchLocalData()
+    }
+
+    private func fetchLocalData() {
         if artist == nil {
             let realm = try! Realm()
             let realmAlbums = realm.objects(Album.self).filter("isDownloaded = 1")
             albums = Array(realmAlbums)
-            collectionView.reloadData()
         }
+        collectionView.reloadData()
     }
 
     private func loadServerData(for artist: Artist) {
@@ -78,8 +85,7 @@ final class AlbumsViewController: UIViewController {
             editButton.style = .done
             editButton.title = NSLocalizedString("Done", comment: "Done button")
         }
-        let visibleItems = collectionView.indexPathsForVisibleItems
-        collectionView.reloadItems(at: visibleItems)
+        fetchLocalData()
     }
 
     private func save() {
@@ -98,11 +104,11 @@ extension AlbumsViewController: UICollectionViewDelegate {
     func toggleSelection(at indexPath: IndexPath) {
         let item = albums[indexPath.item]
 
-        if let cell = collectionView.cellForItem(at: indexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? AlbumCollectionViewCell {
             try! realm.write {
                 item.isDownloaded = !item.isDownloaded
             }
-            cell.isSelected = item.isDownloaded
+            cell.isDownloaded = item.isDownloaded
         }
     }
 
@@ -131,11 +137,11 @@ extension AlbumsViewController: UICollectionViewDataSource {
         let item = albums[indexPath.item]
         cell.titleLabel.text = item.name
         cell.artistLabel.text = item.artist.name
-        cell.setEditing(editing: isEditing)
+        cell.isEditing = isEditing
         if isEditing {
-            cell.isSelected = item.isDownloaded
+            cell.isDownloaded = item.isDownloaded
         } else {
-            cell.isSelected = false
+            cell.isDownloaded = false
         }
         if let url = item.coverImageURL(with: .large) {
             cell.coverLoadingIndicatorView.startAnimating()

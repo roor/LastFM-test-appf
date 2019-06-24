@@ -18,19 +18,18 @@ final class AlbumCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var coverLoadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var selectionButton: UIButton!
 
-    private var isEditing: Bool = false
-
-    func setEditing(editing: Bool) {
-        isEditing = editing
-        selectionButton.isHidden = !editing
-        coverImageView.alpha = isEditing ? 0.5 : 1
+    var isEditing: Bool = false {
+        didSet {
+            selectionButton.isHidden = !isEditing
+            coverImageView.alpha = isEditing ? 0.5 : 1
+        }
     }
 
-    override var isSelected: Bool {
+    var isDownloaded: Bool = false {
         didSet {
             if isEditing {
-                selectionButton.isHidden = isSelected
-                coverImageView.alpha = isSelected ? 1 : 0.5
+                selectionButton.isHidden = isDownloaded
+                coverImageView.alpha = isDownloaded ? 1 : 0.5
             }
         }
     }
