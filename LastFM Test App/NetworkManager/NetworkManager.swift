@@ -21,7 +21,7 @@ final class NetworkManager {
     /**
      All supported for app requests to LastFM API
      */
-    enum Method: String {
+    private enum Method: String {
         case artistSearch = "artist.search"
         case artistGetTopAlbums = "artist.getTopAlbums"
         case albumGetInfo = "album.getInfo"

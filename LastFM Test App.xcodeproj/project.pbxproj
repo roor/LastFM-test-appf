@@ -27,6 +27,7 @@
 		9C6D184B22BE210800F73DDC /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6D184A22BE210800F73DDC /* Track.swift */; };
 		9C6D184D22BE799C00F73DDC /* ConstantsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6D184C22BE799C00F73DDC /* ConstantsHelper.swift */; };
 		9C6D185122BE7CD000F73DDC /* AlbumDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6D185022BE7CD000F73DDC /* AlbumDetailsViewController.swift */; };
+		9CA28A2A22C9DEF600D8EB37 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA28A2922C9DEF600D8EB37 /* NetworkManagerTests.swift */; };
 		9CFFF47522C0ACBB00A2A09B /* TrackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFFF47422C0ACBB00A2A09B /* TrackTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		9C6D184A22BE210800F73DDC /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		9C6D184C22BE799C00F73DDC /* ConstantsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsHelper.swift; sourceTree = "<group>"; };
 		9C6D185022BE7CD000F73DDC /* AlbumDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailsViewController.swift; sourceTree = "<group>"; };
+		9CA28A2922C9DEF600D8EB37 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		9CFFF47422C0ACBB00A2A09B /* TrackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTests.swift; sourceTree = "<group>"; };
 		ADE8B7A18D284D218E64BC89 /* Pods_LastFM_Test_AppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LastFM_Test_AppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE7F9119A106007A498D7F0E /* Pods_LastFM_Test_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LastFM_Test_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				9C6D181F22BDF49600F73DDC /* LastFM_Test_AppTests.swift */,
+				9CA28A2922C9DEF600D8EB37 /* NetworkManagerTests.swift */,
 				9CFFF47422C0ACBB00A2A09B /* TrackTests.swift */,
 				9C6D182122BDF49600F73DDC /* Info.plist */,
 			);
@@ -487,6 +490,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CA28A2A22C9DEF600D8EB37 /* NetworkManagerTests.swift in Sources */,
 				9C6D182022BDF49600F73DDC /* LastFM_Test_AppTests.swift in Sources */,
 				9CFFF47522C0ACBB00A2A09B /* TrackTests.swift in Sources */,
 			);

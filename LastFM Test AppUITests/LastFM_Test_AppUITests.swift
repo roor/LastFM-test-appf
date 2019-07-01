@@ -26,9 +26,20 @@ class LastFM_Test_AppUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testSearchSegue() {
+        let app = XCUIApplication()
+        app.navigationBars["Albums"].buttons["Search"].tap()
+        let table = app.tables["Empty list"]
+
+        XCTAssertTrue(table.exists)
+    }
+
+    func testEditAction() {
+        let app = XCUIApplication()
+        app.navigationBars["Albums"].buttons["Edit"].tap()
+        let doneButton = app.navigationBars["Albums"].buttons["Done"]
+
+        XCTAssertTrue(doneButton.exists)
     }
 
 }
